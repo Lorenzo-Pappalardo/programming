@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <fstream>
 #include <cmath>
 
 using namespace std;
@@ -15,7 +16,7 @@ template<class T>
 class Max_Heap {
     int dim;
     int heapsize;
-    int *arr;
+    T *arr;
 
     void swap(int i, int j) {
         T tmp = arr[i];
@@ -44,17 +45,20 @@ public:
     }
 
     void buildMaxHeap() {
-        for (int i=floor(heapsize/2); i>0; i--) {
+        for (int i = floor(heapsize / 2); i > 0; i--)
             maxHeapify(i);
-        }
     }
 
     void insert(T key) {
-        if (heapsize < dim) {
+        if (heapsize <= dim) {
+            int i = heapsize;
             arr[heapsize++] = key;
-        } else {
+            while (i > 1 && arr[i] > arr[parent(i)]) {
+                swap(i, parent(i));
+                i = parent(i);
+            }
+        } else
             cerr << "No more space!";
-        }
     }
 
     void print(ostream &os) {
@@ -65,16 +69,41 @@ public:
 };
 
 int main() {
-    Max_Heap<int> mh;
-    mh.insert(32);
-    mh.insert(76);
-    mh.insert(12);
-    mh.insert(97);
-    mh.insert(23);
-    mh.insert(56);
-    cout << "Before:\n";
-    mh.print(cout);
-    cout << "After:\n";
-    mh.buildMaxHeap();
-    mh.print(cout);
+    fstream input, output;
+    input.open("input.txt", fstream::in);
+    output.open("output.txt", fstream::out);
+
+    string type;
+    int N;
+
+    while (input >> type >> N) {
+        if (type == "int" || type == "bool") {
+            auto *mh = new Max_Heap<int>();
+            for (int i = 0; i < N; i++) {
+                int key;
+                input >> key;
+                mh->insert(key);
+            }
+            //mh->buildMaxHeap();
+            mh->print(output);
+        } else if (type == "double") {
+            auto *mh = new Max_Heap<double>();
+            for (int i = 0; i < N; i++) {
+                double key;
+                input >> key;
+                mh->insert(key);
+            }
+            //mh->buildMaxHeap();
+            mh->print(output);
+        } else {
+            auto *mh = new Max_Heap<char>();
+            for (int i = 0; i < N; i++) {
+                char key;
+                input >> key;
+                mh->insert(key);
+            }
+            //mh->buildMaxHeap();
+            mh->print(output);
+        }
+    }
 }
