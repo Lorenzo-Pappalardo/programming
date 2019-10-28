@@ -23,9 +23,10 @@ class Max_Heap {
     void maxHeapify(int i) {
         int l = left(i);
         int r = right(i);
-        int biggest = i;
+        int biggest;
         if (l <= heapsize && (arr[l] > arr[i]))
             biggest = l;
+        else biggest = i;
         if (r <= heapsize && (arr[r] > arr[biggest]))
             biggest = r;
         if (biggest != i) {
@@ -42,13 +43,13 @@ public:
     }
 
     void insert(T key) {
-        if (heapsize <= dim) {
-            arr[heapsize] = key;
-            int i = heapsize++;
+        if (heapsize < dim) {
+            arr[heapsize++] = key;
+            /*int i = heapsize++;
             while (i > 1 && (arr[i] > arr[parent(i)])) {
                 swap(i, parent(i));
                 i = parent(i);
-            }
+            }*/
         }
     }
 
@@ -73,7 +74,7 @@ int main() {
     int N;
 
     while (input >> type >> N) {
-        if (type == "int" || type == "bool") {
+        if (type == "int") {
             auto *mh = new Max_Heap<int>(N);
             for (int i = 0; i < N; i++) {
                 int key;
@@ -86,6 +87,15 @@ int main() {
             auto *mh = new Max_Heap<double>(N);
             for (int i = 0; i < N; i++) {
                 double key;
+                input >> key;
+                mh->insert(key);
+            }
+            mh->buildMaxHeap();
+            mh->print(output);
+        } else if (type == "bool") {
+            auto *mh = new Max_Heap<bool>(N);
+            for (int i = 0; i < N; i++) {
+                bool key;
                 input >> key;
                 mh->insert(key);
             }
