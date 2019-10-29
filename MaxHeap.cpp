@@ -36,7 +36,7 @@ class Max_Heap {
     }
 
 public:
-    Max_Heap(int dim) {
+    Max_Heap(int dim = 200) {
         this->dim = dim + 1;
         arr = new T[dim + 1];
         heapsize = 1;
@@ -75,7 +75,7 @@ int main() {
 
     while (input >> type >> N) {
         if (type == "int") {
-            auto *mh = new Max_Heap<int>(N);
+            auto *mh = new Max_Heap<int>();
             for (int i = 0; i < N; i++) {
                 int key;
                 input >> key;
@@ -84,7 +84,7 @@ int main() {
             mh->buildMaxHeap();
             mh->print(output);
         } else if (type == "double") {
-            auto *mh = new Max_Heap<double>(N);
+            auto *mh = new Max_Heap<double>();
             for (int i = 0; i < N; i++) {
                 double key;
                 input >> key;
@@ -93,7 +93,7 @@ int main() {
             mh->buildMaxHeap();
             mh->print(output);
         } else if (type == "bool") {
-            auto *mh = new Max_Heap<bool>(N);
+            auto *mh = new Max_Heap<bool>();
             for (int i = 0; i < N; i++) {
                 bool key;
                 input >> key;
@@ -102,7 +102,7 @@ int main() {
             mh->buildMaxHeap();
             mh->print(output);
         } else {
-            auto *mh = new Max_Heap<char>(N);
+            auto *mh = new Max_Heap<char>();
             for (int i = 0; i < N; i++) {
                 char key;
                 input >> key;
