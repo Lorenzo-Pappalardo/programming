@@ -1,14 +1,13 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-
-int CALLS = 0;
-
 using namespace std;
 
 inline int parent(int i) { return floor(i >> 1); }
 inline int left(int i) { return i << 1; }
 inline int right(int i) { return (i << 1) | 1; }
+
+int CALLS = 0;
 
 template<class T>
 class Heap {
