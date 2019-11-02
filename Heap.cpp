@@ -39,26 +39,31 @@ class Heap {
         }
     }
 
-    void MinHeapify(int i) {
+    void MinHeapify(int i, int end) {
+        CALLS++;
         int l = left(i);
         int r = right(i);
         int max = i;
-        if (l < heapsize && (arr[l] < arr[i])) {
+        if (l < end && (arr[l] < arr[i])) {
             max = l;
         }
-        if (r < heapsize && (arr[r] < arr[max])) {
+        if (r < end && (arr[r] < arr[max])) {
             max = r;
         }
         if (max != i) {
             swap(i, max);
-            MinHeapify(max);
+            MinHeapify(max, end);
         }
     }
 
-    void heapsort() {
+    void heapsort(char type) {
         for (int i=heapsize-1; i>1; i--) {
             swap(1, i);
-            MaxHeapify(1, i);
+            if (type == 'M') {
+                MaxHeapify(1, i);
+            } else {
+                MinHeapify(1, i);
+            }
         }
     }
 
@@ -82,10 +87,10 @@ class Heap {
             }
         } else {
             for (int i=floor(heapsize/2); i>0; i--) {
-                MinHeapify(i);
+                MinHeapify(i, heapsize);
             }
         }
-        heapsort();
+        heapsort(type);
     }
 
     void print(ostream &os) {
