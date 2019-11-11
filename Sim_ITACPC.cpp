@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 class Node {
@@ -56,6 +57,7 @@ void print(ostream &os, Node **a, int N) {
 
 int main() {
     unsigned short N;
+    cout << "Insert N: ";
     cin >> N;
     
     Node **arr = new Node*[N];
@@ -67,7 +69,23 @@ int main() {
         arr[i] = new Node(i, a, b);
     }
 
-    quickSort(arr, 0, N - 1);
+    //quickSort(arr, 0, N - 1);
+    //print(cout, arr, N);
 
-    print(cout, arr, N);
+    unsigned int start = 0;
+
+    while (start != N - 2) {
+        for (int i = 0; i < N; i++) arr[i]->update();
+        quickSort(arr, start + 1, N - 1);
+        unsigned short mid = N - start;
+        if (mid % 2 == 1) mid = floor((N - start) / 2);
+        else mid = floor((N - start) / 2) - 1;
+        if (arr[mid]->getMeters() == arr[mid + 1]->getMeters() && arr[mid]->getIndex() > arr[mid + 1]->getIndex()) {
+            swap(arr, mid, mid + 1);
+        }
+        start += mid;
+    }
+
+    //print(cout, arr, N);
+    cout << arr[N - 1]->getIndex() << endl;
 }
