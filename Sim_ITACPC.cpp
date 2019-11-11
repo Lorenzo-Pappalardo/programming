@@ -1,61 +1,90 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 class Node {
-    unsigned short value;
+    unsigned short index;
     unsigned short meters;
     unsigned short movement;
 public:
-    Node() {
-        value = meters = movement = 0;
-    }
-    void insert(int value, int meters, int movement) {
-        this->value = value;
+    Node(int index, int meters, int movement) {
+        this->index = index;
         this->meters = meters;
         this->movement = movement;
     }
-    unsigned short getValue() { return value; };
+    unsigned short getIndex() { return index; }
     unsigned short getMeters() { return meters; }
     void update() { meters += movement; }
 };
 
-void swap(Node *a, int i, int j) {
-    Node tmp = a[i];
+void swap(Node **a, int i, int j) {
+    Node *tmp = a[i];
     a[i] = a[j];
     a[j] = tmp;
+}
+
+int partition(Node **a, int start, int end) {
+	Node *x = a[start];
+	int i = start - 1;
+    int j = end + 1;
+    do {
+    	do j--;
+		while (x->getMeters() < a[j]->getMeters());
+
+        do i++;
+        while (x->getMeters() > a[i]->getMeters());
+
+        if (i < j) swap(a, i, j);
+	} while (i < j);
+    return j;
+}
+
+void quickSort(Node **a, int start, int end) {
+	int mid;
+	if (start < end) {
+		mid = partition(a, start, end);
+		quickSort(a, start, mid);
+		quickSort(a, mid+1, end);
+    }
 }
 
 int main() {
     unsigned short N;
     cin >> N;
     
-    Node *arr = new Node[N];
+    Node **arr = new Node*[N];
 
     for (int i=0; i<N; i++) {
         unsigned short a, b;
         cin >> a;
         cin >> b;
-        arr[i].insert(i, a, b);
+        arr[i] = new Node(i, a, b);
     }
 
     unsigned short time = 0;
+    unsigned short start = 0;
 
     while (N > 1) {
         if (time > 0) {
-            for (int i=0; i<N; i++) arr[i].update();
-            countSort(arr, N);
-            for (int i=0; i<N/2; i++) {
-                swap(arr, i, N-1-i);
+            for (int i=0; i<N; i++) arr[i]->update();
+            quickSort(arr, start, N-1);
+            int mid = floor(N/2);
+            if ((arr[mid]->getMeters() == arr[mid+1]->getMeters()) &&  (arr[mid]->getIndex() > arr[mid+1]->getIndex())) {
+                swap(arr, mid, mid+1);
             }
-            N = N/2;
+            for (int i=0; i<mid; i++) {
+                delete arr[i];
+                N--;
+            }
+            start = mid+1;
         }
         time++;
     }
 
-    /*quicksort(arr, 0, N-1);
+    /*quickSort(arr, 0, N-1);
     for (int i=0; i<N; i++) {
-        cout << arr[i].getValue() << ' ';
+        cout << arr[i]->getMeters() << ' ';
     }*/
 
-    cout << arr[0].getValue() << endl;
+    cout << arr[N-1]->getIndex() << endl;
 }
