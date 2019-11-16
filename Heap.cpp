@@ -141,15 +141,16 @@ int main() {
                     double num;
                     ss << value.substr(2);
                     ss >> num;
-                    mh->insert(num, "dM");
+                    mh->insert(num, "dm");
                 } else {
-                    mh->extract('M');
+                    mh->extract('m');
                 }*/
                 mh->insert(value);
             }
             mh->buildHeap('M');
             output << CALLS << ' ';
             mh->print(output);
+            //output << endl;
         } else {
             auto *mh = new Heap<char>(N);
             for (int i=0; i<N; i++) {
@@ -161,15 +162,16 @@ int main() {
                     char num;
                     ss << value.substr(2);
                     ss >> num;
-                    mh->insert(num, "dM");
+                    mh->insert(num, "dm");
                 } else {
-                    mh->extract('M');
+                    mh->extract('m');
                 }*/
                 mh->insert(value);
             }
             mh->buildHeap('M');
             output << CALLS << ' ';
             mh->print(output);
+            //output << endl;
         }
         CALLS = 0;
     }
