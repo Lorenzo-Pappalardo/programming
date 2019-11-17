@@ -12,13 +12,13 @@ void print(ostream &os, T *a, int N) {
 
 template<class T>
 void countingSort(T *a, int N) {
-    int min = a[0];
-    int max = a[0];
+    T min = a[0];
+    T max = a[0];
     for (int i = 0; i < N; i++) {
         if (a[i] > max) max = a[i];
         if (a[i] < min) min = a[i];
     }
-    int dim = max - min + 1;
+    T dim = max - min + 1;
     T sorted[dim];
     for (int i = 0; i < dim; i++)
         sorted[i] = 0;
