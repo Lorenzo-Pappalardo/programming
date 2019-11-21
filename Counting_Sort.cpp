@@ -1,10 +1,12 @@
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 using namespace std;
 
 //Are you sure Lord Faro?
-int *C;
+template<class T>
+T *C;
 int Cs;
 //I don't think it's a great idea...
 
@@ -30,13 +32,13 @@ void countingSort(T *a, int N) {
     for (int i = 0; i < N; i++)
         sorted[a[i] - min]++;
     //Please Lord Faro, this is wrong...
-    C = new int[dim];
+    C<T> = new T[dim];
     Cs = dim;
-    C[0] = 0;
+    C<T>[0] = 0;
     int tmp = 0;
     for (int i = 1; i < dim; i++) {
         tmp += sorted[i - 1];
-        C[i] = tmp;
+        C<T>[i] = tmp;
     }
     //I've done what you asked... Now give me 10/10
     int i = 0;
@@ -55,15 +57,18 @@ int main() {
     input.open("input.txt", fstream::in);
     output.open("output.txt", fstream::out);
 
+    string type; //= "int";
     int N;
 
-    while (input >> N) {
-        int *arr = new int[N];
-        for (int i = 0; i < N; i++)
-            input >> arr[i];
-        countingSort(arr, N);
-        print(output, C, Cs);
-        print(output, arr, N);
-        output << endl;
+    while (input >> /*type >>*/ N) {
+        if (type == "int") {
+            int *arr = new int[N];
+            for (int i = 0; i < N; i++)
+                input >> arr[i];
+            countingSort(arr, N);
+            print(output, C<int>, Cs);
+            print(output, arr, N);
+            output << endl;
+        }
     }
 }
