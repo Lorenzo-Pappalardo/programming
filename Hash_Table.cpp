@@ -3,11 +3,12 @@
 
 using namespace std;
 
-template <class T>
+template<class T>
 class hashTable {
     int slots;
     int size;
     list<T> *ht;
+
     virtual int computeHashFunction(T key) = 0;
 
 public:
@@ -58,15 +59,16 @@ public:
 };
 
 template<class T>
-void operator << (ostream &os, hashTable<T> *ht) {
+void operator<<(ostream &os, hashTable<T> *ht) {
     ht->print(os);
 }
 
 template<class T>
 class divHashTable : public hashTable<T> {
     int computeHashFunction(T key) {
-        return ((int)key % this->getSlots());
+        return ((int) key % this->getSlots());
     }
+
 public:
     divHashTable(int slots) : hashTable<T>(slots) {}
 };
@@ -74,11 +76,13 @@ public:
 template<class T>
 class mulHashTable : public hashTable<T> {
     double multiplier;
+
     int computeHashFunction(T key) {
-        double tmp = (int)key * multiplier;
-        tmp = tmp - (int)tmp;
-        return (int)(tmp * this->getSlots());
+        double tmp = (int) key * multiplier;
+        tmp = tmp - (int) tmp;
+        return (int) (tmp * this->getSlots());
     }
+
 public:
     mulHashTable(int slots) : hashTable<T>(slots) {
         multiplier = 0.7;

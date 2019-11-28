@@ -2,10 +2,13 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+
 using namespace std;
 
 inline int parent(int i) { return floor(i >> 1); }
+
 inline int left(int i) { return i << 1; }
+
 inline int right(int i) { return (i << 1) | 1; }
 
 int CALLS = 0;
@@ -57,17 +60,17 @@ class Heap {
     }
 
     void heapsort(char type) {
-        for (int i=heapsize-1; i>1; i--) {
+        for (int i = heapsize - 1; i > 1; i--) {
             swap(1, i);
             if (type == 'M') MaxHeapify(1, i);
             else MinHeapify(1, i);
         }
     }
 
-    public:
+public:
     Heap(int dim = 200) {
-        this->dim = dim+1;
-        arr = new T[dim+1];
+        this->dim = dim + 1;
+        arr = new T[dim + 1];
         heapsize = 1;
     }
 
@@ -92,11 +95,11 @@ class Heap {
 
     void buildHeap(char type) {
         if (type == 'M') {
-            for (int i=floor(heapsize/2); i>0; i--) {
+            for (int i = floor(heapsize / 2); i > 0; i--) {
                 MaxHeapify(i, heapsize);
             }
         } else {
-            for (int i=floor(heapsize/2); i>0; i--) {
+            for (int i = floor(heapsize / 2); i > 0; i--) {
                 MinHeapify(i, heapsize);
             }
         }
@@ -115,7 +118,7 @@ class Heap {
     }
 
     void print(ostream &os) {
-        for (int i=1; i<heapsize; i++)
+        for (int i = 1; i < heapsize; i++)
             os << arr[i] << ' ';
         os << endl;
     }
@@ -132,7 +135,7 @@ int main() {
     while (input >> type >> N) {
         if (type == "int" || type == "double" || type == "bool") {
             auto *mh = new Heap<double>(N);
-            for (int i=0; i<N; i++) {
+            for (int i = 0; i < N; i++) {
                 double value;
                 //string value;
                 input >> value;
@@ -153,7 +156,7 @@ int main() {
             //output << endl;
         } else {
             auto *mh = new Heap<char>(N);
-            for (int i=0; i<N; i++) {
+            for (int i = 0; i < N; i++) {
                 char value;
                 //string value;
                 input >> value;
