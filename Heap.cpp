@@ -1,11 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <cmath>
 
 using namespace std;
 
-inline int parent(int i) { return floor(i >> 1); }
+inline int parent(int i) { return i >> 1; }
 
 inline int left(int i) { return i << 1; }
 
@@ -95,12 +94,12 @@ public:
 
     void buildHeap(char type) {
         if (type == 'M') {
-            for (int i = floor(heapsize / 2); i > 0; i--) {
-                MaxHeapify(i, heapsize);
+            for (int i = heapsize / 2; i > 0; i--) {
+                if (heapsize-i > 0) MaxHeapify(i, heapsize);
             }
         } else {
-            for (int i = floor(heapsize / 2); i > 0; i--) {
-                MinHeapify(i, heapsize);
+            for (int i = heapsize / 2; i > 0; i--) {
+                if (heapsize-i > 0) MinHeapify(i, heapsize);
             }
         }
         heapsort(type);
@@ -151,8 +150,8 @@ int main() {
                 mh->insert(value);
             }
             mh->buildHeap('M');
-            output << CALLS << ' ';
-            mh->print(output);
+            output << CALLS << ' ' << endl;
+            //mh->print(output);
             //output << endl;
         } else {
             auto *mh = new Heap<char>(N);
@@ -172,8 +171,8 @@ int main() {
                 mh->insert(value);
             }
             mh->buildHeap('M');
-            output << CALLS << ' ';
-            mh->print(output);
+            output << CALLS << ' ' << endl;
+            //mh->print(output);
             //output << endl;
         }
         CALLS = 0;
