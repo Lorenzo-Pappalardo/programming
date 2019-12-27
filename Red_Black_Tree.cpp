@@ -17,9 +17,13 @@ public:
         parent = left = right = nullptr;
     }
 
-    void setKey(T key) { this->key = key; }
+    void setKey(T key) {
+        this->key = key;
+    }
 
-    void setColor(int color) { this->color = color; }
+    void setColor(int color) {
+        this->color = color;
+    }
 
     void setPointer(Node<T> *pointer, char choice) {
         if (choice == 'p') parent = pointer;
@@ -28,7 +32,9 @@ public:
         else cerr << "Invalid choice!";
     }
 
-    const T getKey() const { return key; }
+    const T getKey() const {
+        return key;
+    }
 
     const char getColor() const {
         if (color) return 'R';
@@ -49,11 +55,15 @@ class RBT {
     Node<T> *root;
     string visit;
 
-    bool isLeftChild(Node<T> *node) { return node == node->getPointer('p')->getPointer('l'); }
+    bool isLeftChild(Node<T> *node) {
+        return node == node->getPointer('p')->getPointer('l');
+    }
 
     Node<T> *getUncle(Node<T> *node) {
         if (!node->getPointer('p') || !node->getPointer('p')->getPointer('p')) return nullptr;
-        if (isLeftChild(node->getPointer('p'))) { return node->getPointer('p')->getPointer('p')->getPointer('r'); }
+        if (isLeftChild(node->getPointer('p'))) {
+            return node->getPointer('p')->getPointer('p')->getPointer('r');
+        }
         return node->getPointer('p')->getPointer('p')->getPointer('l');
     }
 
@@ -157,7 +167,9 @@ class RBT {
         os << endl;
     }
 public:
-    RBT() { root = nullptr; }
+    RBT() {
+        root = nullptr;
+    }
 
     void print(ostream &os, string visit) {
         this->visit = visit;
@@ -166,7 +178,7 @@ public:
 
     RBT *insert(T key) {
         Node<T> *newNode = new Node<T>(key);
-        if (!root){
+        if (!root) {
             newNode->setColor(BLACK);
             root = newNode;
         } else {

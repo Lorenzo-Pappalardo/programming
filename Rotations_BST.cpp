@@ -14,21 +14,37 @@ public:
         parent = left = right = nullptr;
     }
 
-    void setKey(T key) { this->key = key; }
+    void setKey(T key) {
+        this->key = key;
+    }
 
-    void setParent(Node<T> *parent) { this->parent = parent; }
+    void setParent(Node<T> *parent) {
+        this->parent = parent;
+    }
 
-    void setLeft(Node<T> *left) { this->left = left; }
+    void setLeft(Node<T> *left) {
+        this->left = left;
+    }
 
-    void setRight(Node<T> *right) { this->right = right; }
+    void setRight(Node<T> *right) {
+        this->right = right;
+    }
 
-    T getKey() { return key; }
+    T getKey() {
+        return key;
+    }
 
-    Node<T> *getParent() { return parent; }
+    Node<T> *getParent() {
+        return parent;
+    }
 
-    Node<T> *getLeft() { return left; }
+    Node<T> *getLeft() {
+        return left;
+    }
 
-    Node<T> *getRight() { return right; }
+    Node<T> *getRight() {
+        return right;
+    }
 };
 
 template<class T>
@@ -49,6 +65,66 @@ class BST {
             else p->setRight(newnode);
             newnode->setParent(p);
         } else root = newnode;
+    }
+
+    Node<T> *_search(T key, Node<T> *tmp) {
+        while (tmp) {
+            if (key == tmp->getKey()) return tmp;
+            if (key <= tmp->getKey()) tmp = tmp->getLeft();
+            else tmp = tmp->getRight();
+        }
+        return nullptr;
+    }
+
+    Node<T> *min(Node<T> *tmp) {
+        while (tmp && tmp->getLeft()) {
+            tmp = tmp->getLeft();
+        }
+        return tmp;
+    }
+
+    Node<T> *successor(Node<T> *tmp) {
+        if (tmp->getRight()) return min(tmp->getRight());
+        T savedKey = tmp->getKey();
+        do tmp = tmp->getParent();
+        while (savedKey > tmp->getKey());
+        return tmp;
+    }
+
+    void _remove(T key, Node<T> *tmp) {
+        if (tmp && tmp->getKey() == key) {
+            if (tmp->getRight() && tmp->getLeft()) {
+                Node<T> *s = successor(tmp);
+                tmp->setKey(s->getKey());
+                _remove(s->getKey(), s);
+            }
+            else {
+                Node<T> *p = tmp->getParent();
+                Node<T> *c = tmp->getLeft();
+                if (!c) c = tmp->getRight();
+                if (p) {
+                    if (key <= p->getKey()) p->setLeft(c);
+                    else p->setRight(c);
+                }
+                else root = c;
+                if (c) {
+                    c->setParent(p);
+                }
+            }
+        }
+    }
+
+    bool isLeftChild(Node<T> *node) {
+        return node == node->getParent()->getLeft();
+    }
+
+    void insertNodeUp(Node<T> *before, Node<T> *after) {
+        if (before->getParent()) {
+            if (isLeftChild(before)) before->getParent()->setLeft(after);
+            else before->getParent()->setRight(after);
+        } else root = after;
+        after->setParent(before->getParent());
+        before->setParent(after);
     }
 
     void _inorder(ostream &os, Node<T> *tmp) {
@@ -75,91 +151,43 @@ class BST {
         }
     }
 
-    Node<T> *_search(T key, Node<T> *tmp) {
-        while (tmp) {
-            if (key == tmp->getKey()) return tmp;
-            if (key <= tmp->getKey()) tmp = tmp->getLeft();
-            else tmp = tmp->getRight();
-        }
-        return nullptr;
-    }
-
-    Node<T> *min(Node<T> *tmp) {
-        while (tmp && tmp->getLeft()) { tmp = tmp->getLeft(); }
-        return tmp;
-    }
-
-    Node<T> *successor(Node<T> *tmp) {
-        if (tmp->getRight()) return min(tmp->getRight());
-        else {
-            T savedKey = tmp->getKey();
-            do {
-                tmp = tmp->getParent();
-            } while (savedKey > tmp->getKey());
-        }
-        return tmp;
-    }
-
-    BST *_del(T key, Node<T> *tmp) {
-        Node<T> *toDel = _search(key, tmp);
-        if (toDel) {
-            if (toDel->getLeft() && toDel->getRight()) {
-                Node<T> *s = successor(toDel);
-                toDel->setKey(s->getKey());
-                return _del(toDel->getKey(), s);
-            } else {
-                Node<T> *parent = toDel->getParent();
-                Node<T> *child = toDel->getLeft();
-                if (!child) child = toDel->getRight();
-                if (parent) {
-                    if (key <= parent->getKey()) parent->setLeft(child);
-                    else parent->setRight(child);
-                } else root = child;
-                if (child) { child->setParent(parent); }
-            }
-        }
-        return this;
-    }
-
-    bool isLeftChild(Node<T> *node) { return node == node->getParent()->getLeft(); }
-
-    void insertNodeUp(Node<T> *before, Node<T> * node) {
-        if (before->getParent()) {
-            if (isLeftChild(node)) before->getParent()->setLeft(node);
-            else before->getParent()->setRight(node);
-        } else root = node;
-        node->setParent(before->getParent());
-        before->setParent(node);
-    }
-
 public:
-    BST() { root = nullptr; }
+    BST() {
+        root = nullptr;
+    }
 
     BST *insert(T key) {
         _insert(key);
         return this;
     }
 
-    BST *del(T key) { return _del(key, root); }
-
-    Node<T> *search(T key) { return _search(key, root); }
-
-    void leftRotate(Node<T> *node) {
-        Node<T> *newParent = node->getRight();
-        insertNodeUp(node, newParent);
-        node->setRight(newParent->getLeft());
-        if (newParent->getLeft()) newParent->getLeft()->setParent(node);
-        newParent->setLeft(node);
+    BST *remove(T key) {
+        Node <T> *toDel = _search(key, root);
+        if (toDel) _remove(key, toDel);
+        return this;
     }
 
-    void rightRotate(Node<T>* node)
-	{
-		Node<T> *newParent = node->getLeft();
-        insertNodeUp(node, newParent);
-        node->setLeft(newParent->getRight());
-        if (newParent->getRight()) newParent->getRight()->setParent(node);
-        newParent->setRight(node);
-	}
+    void leftRotate(T key) {
+        Node<T> *pivot = _search(key, root);
+        if (pivot && pivot->getRight()) {
+            Node<T> *newParent = pivot->getRight();
+            insertNodeUp(pivot, newParent);
+            pivot->setRight(newParent->getLeft());
+            if (newParent->getLeft()) newParent->getLeft()->setParent(pivot);
+            newParent->setLeft(pivot);
+        }
+    }
+
+    void rightRotate(T key) {
+        Node<T> *pivot = _search(key, root);
+        if (pivot && pivot->getLeft()) {
+            Node<T> *newParent = pivot->getLeft();
+            insertNodeUp(pivot, newParent);
+            pivot->setLeft(newParent->getRight());
+            if (newParent->getRight()) newParent->getRight()->setParent(pivot);
+            newParent->setRight(pivot);
+        }
+    }
 
     void inorder(ostream &os) {
         _inorder(os, root);
@@ -206,26 +234,32 @@ int main() {
                     ss << value;
                     int tmp;
                     ss >> tmp;
-                    t->del(tmp);
+                    t->remove(tmp);
                 } else if (value[0] == 'l') {
                     value = value.substr(5);
                     stringstream ss;
                     ss << value;
                     int tmp;
                     ss >> tmp;
-                    t->leftRotate(t->search(tmp));
+                    t->leftRotate(tmp);
                 } else {
                     value = value.substr(6);
                     stringstream ss;
                     ss << value;
                     int tmp;
                     ss >> tmp;
-                    t->rightRotate(t->search(tmp));
+                    t->rightRotate(tmp);
                 }
             }
-            if (visit == "inorder") { t->inorder(output); }
-            else if (visit == "preorder") { t->preorder(output); }
-            else { t->postorder(output); }
+            if (visit == "inorder") {
+                t->inorder(output);
+            }
+            else if (visit == "preorder") {
+                t->preorder(output);
+            }
+            else {
+                t->postorder(output);
+            }
         }
         if (type == "double") {
             BST<double> *t = new BST<double>();
@@ -245,26 +279,32 @@ int main() {
                     ss << value;
                     double tmp;
                     ss >> tmp;
-                    t->del(tmp);
+                    t->remove(tmp);
                 } else if (value[0] == 'l') {
                     value = value.substr(5);
                     stringstream ss;
                     ss << value;
                     double tmp;
                     ss >> tmp;
-                    t->leftRotate(t->search(tmp));
+                    t->leftRotate(tmp);
                 } else {
                     value = value.substr(6);
                     stringstream ss;
                     ss << value;
                     double tmp;
                     ss >> tmp;
-                    t->rightRotate(t->search(tmp));
+                    t->rightRotate(tmp);
                 }
             }
-            if (visit == "inorder") { t->inorder(output); }
-            else if (visit == "preorder") { t->preorder(output); }
-            else { t->postorder(output); }
+            if (visit == "inorder") {
+                t->inorder(output);
+            }
+            else if (visit == "preorder") {
+                t->preorder(output);
+            }
+            else {
+                t->postorder(output);
+            }
         }
     }
 }

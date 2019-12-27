@@ -14,13 +14,21 @@ public:
         this->movement = movement;
     }
 
-    unsigned short getIndex() { return index; }
+    unsigned short getIndex() {
+        return index;
+    }
 
-    unsigned short getMeters() { return meters; }
+    unsigned short getMeters() {
+        return meters;
+    }
 
-    unsigned short getMovement() { return movement; }
+    unsigned short getMovement() {
+        return movement;
+    }
 
-    void update() { meters += movement; }
+    void update() {
+        meters += movement;
+    }
 };
 
 void swap(Node **a, int i, int j) {

@@ -44,9 +44,13 @@ public:
         return -1;
     }
 
-    int getSlots() { return slots; }
+    int getSlots() {
+        return slots;
+    }
 
-    int getSize() { return size; }
+    int getSize() {
+        return size;
+    }
 
     void print(ostream &os) {
         for (int i = 0; i < slots; i++) {
