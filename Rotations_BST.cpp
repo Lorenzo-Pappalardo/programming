@@ -97,16 +97,14 @@ class BST {
                 Node<T> *s = successor(tmp);
                 tmp->setKey(s->getKey());
                 _remove(s->getKey(), s);
-            }
-            else {
+            } else {
                 Node<T> *p = tmp->getParent();
                 Node<T> *c = tmp->getLeft();
                 if (!c) c = tmp->getRight();
                 if (p) {
-                    if (key <= p->getKey()) p->setLeft(c);
+                    if (key < p->getKey()) p->setLeft(c);
                     else p->setRight(c);
-                }
-                else root = c;
+                } else root = c;
                 if (c) {
                     c->setParent(p);
                 }
@@ -162,7 +160,7 @@ public:
     }
 
     BST *remove(T key) {
-        Node <T> *toDel = _search(key, root);
+        Node<T> *toDel = _search(key, root);
         if (toDel) _remove(key, toDel);
         return this;
     }
@@ -215,10 +213,10 @@ int main() {
     int R;
     string visit;
 
-    while(input >> type >> N >> R >> visit) {
+    while (input >> type >> N >> R >> visit) {
         if (type == "int") {
             BST<int> *t = new BST<int>();
-            for (int i=0; i<N+R; i++) {
+            for (int i = 0; i < N + R; i++) {
                 string value;
                 input >> value;
                 if (value[0] == 'i') {
@@ -253,17 +251,15 @@ int main() {
             }
             if (visit == "inorder") {
                 t->inorder(output);
-            }
-            else if (visit == "preorder") {
+            } else if (visit == "preorder") {
                 t->preorder(output);
-            }
-            else {
+            } else {
                 t->postorder(output);
             }
         }
         if (type == "double") {
             BST<double> *t = new BST<double>();
-            for (int i=0; i<N+R; i++) {
+            for (int i = 0; i < N + R; i++) {
                 string value;
                 input >> value;
                 if (value[0] == 'i') {
@@ -298,11 +294,9 @@ int main() {
             }
             if (visit == "inorder") {
                 t->inorder(output);
-            }
-            else if (visit == "preorder") {
+            } else if (visit == "preorder") {
                 t->preorder(output);
-            }
-            else {
+            } else {
                 t->postorder(output);
             }
         }
