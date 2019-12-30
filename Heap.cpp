@@ -101,11 +101,11 @@ public:
     void buildHeap(char type) {
         if (type == 'M') {
             for (int i = heapsize / 2; i > 0; i--) {
-                if (heapsize-i > 0) MaxHeapify(i, heapsize);
+                if (heapsize - i > 0) MaxHeapify(i, heapsize);
             }
         } else {
             for (int i = heapsize / 2; i > 0; i--) {
-                if (heapsize-i > 0) MinHeapify(i, heapsize);
+                if (heapsize - i > 0) MinHeapify(i, heapsize);
             }
         }
         heapsort(type);

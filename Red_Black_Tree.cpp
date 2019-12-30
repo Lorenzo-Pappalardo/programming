@@ -1,11 +1,12 @@
 #include <iostream>
 #include <fstream>
+
 using namespace std;
 
-static const int BLACK=0;
-static const int RED=1;
+static const int BLACK = 0;
+static const int RED = 1;
 
-template <class T>
+template<class T>
 class Node {
     T key;
     int color;
@@ -135,13 +136,13 @@ class RBT {
                     }
                 }
             }
-        } while(true);
+        } while (true);
     }
 
     Node<T> *search(T key) {
         Node<T> *tmp = root;
         Node<T> *parent = nullptr;
-        while(tmp) {
+        while (tmp) {
             if (key == tmp->getKey()) return tmp;
             parent = tmp;
             if (key < tmp->getKey()) tmp = tmp->getPointer('l');
@@ -166,6 +167,7 @@ class RBT {
         }
         os << endl;
     }
+
 public:
     RBT() {
         root = nullptr;
@@ -207,7 +209,7 @@ int main() {
     while (input >> type >> N >> visit) {
         if (type == "int") {
             RBT<int> *t = new RBT<int>();
-            for (int i=0; i<N; i++) {
+            for (int i = 0; i < N; i++) {
                 int value;
                 input >> value;
                 t->insert(value);
