@@ -7,14 +7,14 @@ using namespace std;
 int MCM(vector<int> &chain) {
     int chain_length = chain.size() - 1;
     vector<vector<int>> LUT = vector<vector<int>>(chain_length, vector<int>(chain_length, 0));
-    for (int i = 1; i < chain_length; i++) {
-        for (int j = 0; j < chain_length - i; j++) {
+    for (int j = 1; j < chain_length; j++) {            //Columns
+        for (int i = 0; i < chain_length - j; i++) {    //Rows
             int k = i + j;
-            for (int l = j; l < k; l++) {
-                int m = LUT[j][l] + LUT[l + 1][k] + chain[j] * chain[l + 1] * chain[k + 1];
-                if (LUT[j][k] == 0 || m < LUT[j][k]) {
-                    LUT[j][k] = m;
-                    LUT[k][j] = l;
+            for (int l = i; l < k; l++) {
+                int m = LUT[i][l] + LUT[l + 1][k] + chain[i] * chain[l + 1] * chain[k + 1];
+                if (LUT[i][k] == 0 || m < LUT[i][k]) {
+                    LUT[i][k] = m;
+                    LUT[k][i] = l;
                 }
             }
         }

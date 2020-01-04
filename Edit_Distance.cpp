@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
 const int min(int a, int b) { return a < b ? a : b; }
