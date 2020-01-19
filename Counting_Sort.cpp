@@ -4,11 +4,8 @@
 
 using namespace std;
 
-//Are you sure Lord Faro?
 template<class T>
 T *C;
-int Cs;
-//I don't think it's a great idea...
 
 template<class T>
 void print(ostream &os, T *a, int N) {
@@ -31,16 +28,11 @@ void countingSort(T *a, int N) {
         sorted[i] = 0;
     for (int i = 0; i < N; i++)
         sorted[a[i] - min]++;
-    //Please Lord Faro, this is wrong...
     C<T> = new T[dim];
-    Cs = dim;
     C<T>[0] = 0;
-    int tmp = 0;
     for (int i = 1; i < dim; i++) {
-        tmp += sorted[i - 1];
-        C<T>[i] = tmp;
+        C<T>[i] = C<T>[i - 1] + sorted[i - 1];
     }
-    //I've done what you asked... Now give me 10/10
     int i = 0;
     int j = 0;
     while (i < N) {

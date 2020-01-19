@@ -5,7 +5,7 @@ using namespace std;
 
 const int INF = INT32_MAX;
 
-template <class T>
+template<class T>
 class Graph {
     int dim, nodesNum, edgesNum, root;
     T **nodes;
@@ -19,7 +19,7 @@ class Graph {
         return -1;
     }
 
-   public:
+public:
     Graph(int dim) {
         this->dim = dim;
         nodesNum = edgesNum = 0;
@@ -98,7 +98,7 @@ class Graph {
 
     void print(ostream &os, int res) {
         if (res == -INF) os << "undef.";
-        else if (res == -INF+1) os << "inf.";
+        else if (res == -INF + 1) os << "inf.";
         else os << res;
         os << endl;
     }

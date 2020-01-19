@@ -9,8 +9,6 @@ class Heap {
     int dim, heapsize;
     char type;
 
-    int parent(int i) const { return i >> 1; }
-
     int left(int i) const { return i << 1; }
 
     int right(int i) const { return (i << 1) | 1; }
@@ -26,24 +24,20 @@ class Heap {
         int r = right(i);
         if (type == 'M') {
             int max = i;
-            if (l <= heapsize && (arr[l] > arr[max])) {
+            if (l <= heapsize && (arr[l] > arr[max]))
                 max = l;
-            }
-            if (r <= heapsize && (arr[r] > arr[max])) {
+            if (r <= heapsize && (arr[r] > arr[max]))
                 max = r;
-            }
             if (max != i) {
                 swap(i, max);
                 Heapify(max);
             }
         } else if (type == 'm') {
             int min = i;
-            if (l <= heapsize && (arr[l] < arr[min])) {
+            if (l <= heapsize && (arr[l] < arr[min]))
                 min = l;
-            }
-            if (r <= heapsize && (arr[r] < arr[min])) {
+            if (r <= heapsize && (arr[r] < arr[min]))
                 min = r;
-            }
             if (min != i) {
                 swap(i, min);
                 Heapify(min);
@@ -66,14 +60,8 @@ public:
     }
 
     void buildHeap() {
-        if (type == 'M') {
-            for (int i = heapsize / 2; i > 0; i--) {
-                Heapify(i);
-            }
-        } else if (type == 'm') {
-            for (int i = heapsize / 2; i > 0; i--) {
-                Heapify(i);
-            }
+        for (int i = heapsize / 2; i > 0; i--) {
+            Heapify(i);
         }
     }
 
