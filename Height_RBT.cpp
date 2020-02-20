@@ -114,36 +114,12 @@ class RBT {
         pivot->setParent(newPivot);
     }
 
-    void _inorder(Node<T> *tmp, ostream &os) {
-        if (tmp) {
-            _inorder(tmp->getLeft(), os);
-            os << '(' << tmp->getKey() << ' ' << ((tmp->getColor() == BLACK) ? "B) " : "R) ");
-            _inorder(tmp->getRight(), os);
-        }
-    }
-
-    void _preorder(Node<T> *tmp, ostream &os) {
-        if (tmp) {
-            os << '(' << tmp->getKey() << ' ' << ((tmp->getColor() == BLACK) ? "B) " : "R) ");
-            _preorder(tmp->getLeft(), os);
-            _preorder(tmp->getRight(), os);
-        }
-    }
-
-    void _postorder(Node<T> *tmp, ostream &os) {
-        if (tmp) {
-            _postorder(tmp->getLeft(), os);
-            _postorder(tmp->getRight(), os);
-            os << '(' << tmp->getKey() << ' ' << ((tmp->getColor() == BLACK) ? "B) " : "R) ");
-        }
-    }
-
-    void _height(Node<T> *tmp, int tmpH, int &h) {
-        if (tmp) {
-            _height(tmp->getLeft(), ++tmpH, h);
-            _height(tmp->getRight(), ++tmpH, h);
-        }
-        if (tmpH > h) h = tmpH;
+    int _height(Node<T> *tmp) {
+        if (!tmp) return 0;
+        int leftH = _height(tmp->getLeft());
+        int rightH = _height(tmp->getRight());
+        if (leftH > rightH) return leftH + 1;
+        return rightH + 1;
     }
 
 public:
@@ -168,23 +144,7 @@ public:
         checkProperties(newNode);
     }
 
-    void inorder(ostream &os) {
-        _inorder(root, os);
-    }
-
-    void preorder(ostream &os) {
-        _preorder(root, os);
-    }
-
-    void postorder(ostream &os) {
-        _postorder(root, os);
-    }
-
-    int height() {
-        int res = 0;
-        _height(root, 0, res);
-        return res;
-    }
+    int height() { return _height(root); }
 };
 
 int main() {
@@ -194,9 +154,8 @@ int main() {
 
     string type;
     int N;
-    string visit;
 
-    while (input >> type >> N >> visit) {
+    while (input >> type >> N) {
         if (type == "int") {
             RBT<int> t;
             for (int i = 0; i < N; i++) {
@@ -204,13 +163,7 @@ int main() {
                 input >> value;
                 t.insert(value);
             }
-            if (visit == "inorder")
-                t.inorder(output);
-            else if (visit == "preorder")
-                t.preorder(output);
-            else if (visit == "postorder")
-                t.postorder(output);
-            output << endl;
+            output << t.height() << endl;
         } else if (type == "double") {
             RBT<double> t;
             for (int i = 0; i < N; i++) {
@@ -218,13 +171,7 @@ int main() {
                 input >> value;
                 t.insert(value);
             }
-            if (visit == "inorder")
-                t.inorder(output);
-            else if (visit == "preorder")
-                t.preorder(output);
-            else if (visit == "postorder")
-                t.postorder(output);
-            output << endl;
+            output << t.height() << endl;
         }
     }
 
