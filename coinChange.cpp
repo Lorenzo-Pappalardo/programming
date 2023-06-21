@@ -47,7 +47,7 @@ public:
 vector<Change *> getChange(int *cents) {
   vector<Change *> cuts;
 
-  for (Unit *unit : units) {
+  for (auto unit : units) {
     cuts.push_back(new Change(unit));
   }
 
@@ -70,7 +70,7 @@ vector<Change *> getChange(int *cents) {
 int main() {
   cout << "[Coin Change]" << endl;
 
-  for (Unit *unit : units) {
+  for (auto unit : units) {
     cout << unit->getName() << ": " << unit->getValueInCents() << " cents"
          << endl;
   }
@@ -85,7 +85,7 @@ int main() {
   }
 
   cout << endl << "Computed change:" << endl;
-  for (Change *cut : getChange(&cents)) {
+  for (auto cut : getChange(&cents)) {
     cout << cut->getUnit()->getName() << ": " << cut->getPieces() << endl;
   }
 }
